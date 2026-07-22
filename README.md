@@ -1,14 +1,35 @@
 # Helpdesk Backend API
 
-Este proyecto corresponde al desarrollo del backend para un sistema de gestión de tickets. La API permite crear, consultar, actualizar y eliminar tickets mediante endpoints RESTful, utilizando Node.js, Express y MongoDB como base de datos.
+Este proyecto corresponde al desarrollo del backend para un sistema de gestión de incidentes o Help Desk. La API permite registrar, consultar, actualizar y eliminar tickets mediante endpoints RESTful, utilizando Node.js, Express y MongoDB Atlas.
 
 ## Tecnologías utilizadas
 
-* Node.js
-* Express
-* MongoDB
-* Mongoose
-* Postman
+- Node.js
+- Express
+- MongoDB Atlas
+- Mongoose
+- Dotenv
+- PowerShell
+- cURL
+- GitHub
+
+## Estructura del proyecto
+
+```text
+helpdesk-backend-api/
+│
+├── models/
+│   └── Ticket.js
+│
+├── routes/
+│   └── ticketRoutes.js
+│
+├── .gitignore
+├── index.js
+├── package.json
+├── package-lock.json
+└── README.md
+```
 
 ## Instalación y uso
 
@@ -20,36 +41,132 @@ Luego, dentro de la carpeta del proyecto, se instalan las dependencias con el si
 npm install
 ```
 
-Después se debe crear un archivo `.env` con la configuración necesaria para la conexión a la base de datos. Por seguridad, este archivo no se sube al repositorio, ya que contiene datos sensibles como la cadena de conexión de MongoDB.
+Después se debe crear un archivo `.env` en la raíz del proyecto con la configuración necesaria para la conexión a MongoDB Atlas.
 
-Ejemplo del archivo `.env`:
+Ejemplo:
 
 ```env
 PORT=3000
-MONGO_URI=tu_cadena_de_conexion
+MONGODB_URI=tu_cadena_de_conexion
 ```
 
-Para iniciar el servidor, se utiliza el comando:
+Por seguridad, el archivo `.env` no se incluye en el repositorio, ya que contiene información sensible.
+
+Para iniciar el servidor se puede utilizar:
+
+```bash
+node index.js
+```
+
+Si el proyecto tiene configurado el script de inicio en `package.json`, también se puede ejecutar:
 
 ```bash
 npm start
 ```
 
-Si todo está configurado correctamente, el servidor quedará funcionando y se podrá probar la API desde Postman o mediante cURL.
+Cuando la conexión se realiza correctamente, el servidor queda disponible en:
+
+```text
+http://localhost:3000
+```
+
+## Modelo de datos
+
+Cada ticket contiene los siguientes campos principales:
+
+- `titulo`
+- `descripcion`
+- `categoria`
+- `prioridad`
+- `estado`
+
+Las categorías permitidas son:
+
+- Red
+- Hardware
+- Software
+
+Las prioridades disponibles son:
+
+- Alta
+- Media
+- Baja
+
+Los estados disponibles son:
+
+- Abierto
+- En Progreso
+- Cerrado
 
 ## Endpoints principales
 
-La API cuenta con las operaciones CRUD para la gestión de tickets:
+La API cuenta con las operaciones CRUD necesarias para la gestión de tickets:
 
-* `GET /tickets`: obtiene la lista de tickets registrados.
-* `POST /tickets`: crea un nuevo ticket.
-* `PUT /tickets/:id`: actualiza un ticket existente.
-* `DELETE /tickets/:id`: elimina un ticket por su identificador.
+| Método | Endpoint | Descripción |
+|---|---|---|
+| GET | `/tickets` | Obtiene la lista de tickets registrados. |
+| GET | `/tickets/:id` | Consulta un ticket específico mediante su identificador. |
+| POST | `/tickets` | Crea un nuevo ticket. |
+| PUT | `/tickets/:id` | Actualiza los datos o el estado de un ticket existente. |
+| DELETE | `/tickets/:id` | Elimina un ticket mediante su identificador. |
+
+## Ejemplo de ticket
+
+```json
+{
+  "titulo": "Problema con internet",
+  "descripcion": "El usuario reporta que no tiene conexión a la red",
+  "categoria": "Red",
+  "prioridad": "Alta",
+  "estado": "Abierto"
+}
+```
 
 ## Pruebas
 
-Las rutas fueron probadas utilizando Postman, verificando que el servidor responda correctamente a las solicitudes GET, POST, PUT y DELETE.
+Las rutas de la API fueron probadas desde PowerShell mediante `Invoke-RestMethod` y también con cURL.
 
-## Nota
+Se verificaron las solicitudes GET, POST, PUT y DELETE, comprobando que el servidor devolviera respuestas en formato JSON y códigos de estado HTTP correctos, como `200 OK` y `201 Created`.
 
-El archivo `.env` no se incluye en el repositorio por motivos de seguridad. Cada persona que ejecute el proyecto debe configurar su propia conexión a MongoDB.
+Ejemplo de prueba con cURL:
+
+```bash
+curl -i http://localhost:3000/tickets
+```
+
+## Evidencias
+
+Las siguientes imágenes deben guardarse dentro de la carpeta `docs/images/`.
+
+### API funcionando localmente
+
+![API Help Desk funcionando](docs/images/api-funcionando.png)
+
+### Prueba de los endpoints
+
+![Prueba CRUD de tickets](docs/images/prueba-crud.png)
+
+## Control de versiones
+
+El desarrollo se realizó en la rama:
+
+```text
+feature/backend-api
+```
+
+Posteriormente, los cambios fueron fusionados con la rama:
+
+```text
+develop
+```
+
+## Nota de seguridad
+
+El archivo `.env` y la carpeta `node_modules/` no se incluyen en el repositorio.
+
+El archivo `.gitignore` contiene:
+
+```gitignore
+node_modules/
+.env
+```
