@@ -136,8 +136,6 @@ curl -i http://localhost:3000/tickets
 
 ## Evidencias
 
-Las siguientes imágenes deben guardarse dentro de la carpeta `docs/images/`.
-
 ### API funcionando localmente
 
 ![API Help Desk funcionando](docs/images/api-funcionando.png)
