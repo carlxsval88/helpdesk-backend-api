@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
 
 const ticketRoutes = require('./routes/ticketRoutes');
@@ -9,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware para recibir datos en formato JSON
 app.use(express.json());
+app.use(cors());
 
 // Ruta principal
 app.get('/', (req, res) => {
@@ -27,7 +29,7 @@ mongoose
     console.log('Conexión exitosa a MongoDB Atlas');
 
     app.listen(PORT, () => {
-      console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+      console.log(`Servidor ejecutándose en el puerto ${PORT}`);
     });
   })
   .catch((error) => {
